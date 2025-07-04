@@ -24,8 +24,7 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
     
-    "composite": true,
-    "rootDir": "./src"
+    "composite": true
   },
-  "include": ["src"]
+  "include": ["src", "../server/src/trpc/trpc.router.ts"]
 }
