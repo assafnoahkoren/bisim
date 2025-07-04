@@ -48,6 +48,7 @@ Thumbs.db
 # TypeScript
 *.tsbuildinfo
 .tsc-out/
+tsconfig.build.tsbuildinfo
 
 # NestJS specific
 /server/dist
