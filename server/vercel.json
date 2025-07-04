@@ -3,13 +3,13 @@
 	"builds": [
 	  {
 		  "use": "@vercel/node",
-		  "src": "dist/main.js"
+		  "src": "src/main.ts"
 	  }
 	],
 	"routes": [
 	  {
 		"src": "/(.*)",
-		"dest": "dist/main.js",
+		"dest": "src/main.ts",
 		"methods": ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"]
 	  }
 	]
