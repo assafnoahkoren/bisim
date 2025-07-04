@@ -1,0 +1,19 @@
+{
+  "name": "bisim",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "server",
+    "webapp"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=server & npm run dev --workspace=webapp",
+    "build": "npm run build --workspace=server && npm run build --workspace=webapp",
+    "server:dev": "npm run dev --workspace=server",
+    "webapp:dev": "npm run dev --workspace=webapp"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "typescript": "^5.3.3"
+  }
+}
