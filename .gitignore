@@ -75,3 +75,6 @@ tmp/
 
 # Docker volumes
 .volumes/
+
+# Prisma
+/server/prisma/migrations/
