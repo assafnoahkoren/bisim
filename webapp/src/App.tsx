@@ -2,9 +2,14 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import { trpc } from './utils/trpc'
 
 function App() {
   const [count, setCount] = useState(0)
+  const [name, setName] = useState('')
+  
+  const hello = trpc.hello.useQuery({ name })
+  const users = trpc.getUsers.useQuery()
 
   return (
     <>
@@ -16,15 +21,40 @@ function App() {
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
-      <h1>Vite + React</h1>
+      <h1>Vite + React + tRPC</h1>
+      
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+        
+        <div style={{ marginTop: '20px' }}>
+          <h2>tRPC Demo</h2>
+          <input
+            type="text"
+            placeholder="Enter your name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            style={{ marginBottom: '10px', padding: '5px' }}
+          />
+          {hello.data && <p>{hello.data.message}</p>}
+        </div>
+        
+        <div style={{ marginTop: '20px' }}>
+          <h3>Users:</h3>
+          {users.isLoading && <p>Loading users...</p>}
+          {users.data && (
+            <ul style={{ textAlign: 'left' }}>
+              {users.data.users.map((user) => (
+                <li key={user.id}>
+                  {user.name} - {user.email}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </div>
+      
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
