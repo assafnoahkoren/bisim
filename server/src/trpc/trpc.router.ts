@@ -19,15 +19,6 @@ export const appRouter = router({
         message: `Hello ${input.name || 'World'}!`,
       };
     }),
-  
-  getUsers: publicProcedure.query(() => {
-    return {
-      users: [
-        { id: 1, name: 'John Doe', email: 'john@example.com' },
-        { id: 2, name: 'Jane Smith', email: 'jane@example.com' },
-      ],
-    };
-  }),
 });
 
 export type AppRouter = typeof appRouter;

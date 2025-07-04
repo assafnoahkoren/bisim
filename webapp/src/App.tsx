@@ -9,7 +9,6 @@ function App() {
   const [name, setName] = useState('')
   
   const hello = trpc.hello.useQuery({ name })
-  const users = trpc.getUsers.useQuery()
 
   return (
     <>
@@ -40,19 +39,6 @@ function App() {
           {hello.data && <p>{hello.data.message}</p>}
         </div>
         
-        <div style={{ marginTop: '20px' }}>
-          <h3>Users:</h3>
-          {users.isLoading && <p>Loading users...</p>}
-          {users.data && (
-            <ul style={{ textAlign: 'left' }}>
-              {users.data.users.map((user) => (
-                <li key={user.id}>
-                  {user.name} - {user.email}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
       </div>
       
       <p className="read-the-docs">
