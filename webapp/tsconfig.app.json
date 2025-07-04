@@ -24,7 +24,8 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
     
-    "composite": true
+    "composite": true,
+    "types": ["vite/client"]
   },
   "include": ["src", "../server/src/trpc/trpc.router.ts"]
 }

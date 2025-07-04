@@ -1,8 +1,10 @@
 import { createTRPCReact } from '@trpc/react-query';
+import type { CreateTRPCReact } from '@trpc/react-query';
 import { httpBatchLink } from '@trpc/client';
 import type { AppRouter } from '../../../server/src/trpc/trpc.router';
 
-export const trpc = createTRPCReact<AppRouter>();
+// Explicitly type the trpc instance
+export const trpc: CreateTRPCReact<AppRouter, unknown> = createTRPCReact<AppRouter>();
 
 export const trpcClient = trpc.createClient({
   links: [
@@ -11,3 +13,5 @@ export const trpcClient = trpc.createClient({
     }),
   ],
 });
+
+export type { AppRouter };
