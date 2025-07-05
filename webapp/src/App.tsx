@@ -1,51 +1,56 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import { trpc } from './utils/trpc'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { MantineProvider, createTheme } from '@mantine/core';
+import { Notifications } from '@mantine/notifications';
+import { AuthProvider } from './contexts/AuthContext';
+import { PrivateRoute } from './components/PrivateRoute';
+import { PublicRoute } from './components/PublicRoute';
+import { AuthLayout } from './layouts/AuthLayout';
+import { AppLayout } from './layouts/AppLayout';
+import { LoginPage } from './pages/LoginPage';
+import { RegisterPage } from './pages/RegisterPage';
+import { DashboardPage } from './pages/DashboardPage';
+import { DocumentsPage } from './pages/admin/DocumentsPage';
+import { QuestionsPage } from './pages/admin/QuestionsPage';
+
+const theme = createTheme({
+  // You can customize theme here if needed
+});
 
 function App() {
-  const [count, setCount] = useState(0)
-  const [name, setName] = useState('')
-  
-  const hello = trpc.hello.useQuery({ name })
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React + tRPC</h1>
-      
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        
-        <div style={{ marginTop: '20px' }}>
-          <h2>tRPC Demo</h2>
-          <input
-            type="text"
-            placeholder="Enter your name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            style={{ marginBottom: '10px', padding: '5px' }}
-          />
-          {hello.data && <p>{hello.data.message}</p>}
-        </div>
-        
-      </div>
-      
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <MantineProvider theme={theme}>
+      <Notifications />
+      <AuthProvider>
+        <BrowserRouter>
+          <Routes>
+            {/* Public routes */}
+            <Route element={<PublicRoute />}>
+              <Route element={<AuthLayout />}>
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/register" element={<RegisterPage />} />
+              </Route>
+            </Route>
+
+            {/* Private routes */}
+            <Route element={<PrivateRoute />}>
+              <Route element={<AppLayout />}>
+                <Route path="/dashboard" element={<DashboardPage />} />
+                
+                {/* Admin routes */}
+                <Route element={<PrivateRoute requiredRole="ADMIN" />}>
+                  <Route path="/admin/documents" element={<DocumentsPage />} />
+                  <Route path="/admin/questions" element={<QuestionsPage />} />
+                </Route>
+              </Route>
+            </Route>
+
+            {/* Default redirect */}
+            <Route path="/" element={<Navigate to="/dashboard" replace />} />
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
+    </MantineProvider>
+  );
 }
 
-export default App
+export default App;
